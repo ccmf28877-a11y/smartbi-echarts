@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>高风险地市智能处方</title>
 
     <style>
-        /* =========================
-           全局
-        ========================= */
+
+        /* ========================================
+           1. 全局基础样式
+        ======================================== */
+
         * {
             margin: 0;
             padding: 0;
@@ -19,149 +26,207 @@
         html,
         body {
             width: 100%;
-            min-height: 100%;
+            height: 100%;
+
+            overflow: hidden;
+
+            background: transparent;
+
             font-family:
                 "Microsoft YaHei",
                 "PingFang SC",
+                "Helvetica Neue",
                 Arial,
                 sans-serif;
 
-            /* Smartbi 中保持透明 */
-            background: transparent;
-
-            color: #18241d;
+            color: #172019;
         }
 
         body {
-            padding: 16px 18px 18px;
+            padding: 6px 8px;
         }
 
 
-        /* =========================
-           整体容器
-        ========================= */
+        /* ========================================
+           2. 整个智能处方模块
+        ======================================== */
+
         .prescription-panel {
             width: 100%;
-            max-width: 1500px;
-            margin: 0 auto;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+            min-height: 0;
         }
 
 
-        /* =========================
-           顶部标题
-        ========================= */
+        /* ========================================
+           3. 顶部标题
+        ======================================== */
+
         .header {
             display: flex;
             align-items: center;
-            gap: 16px;
 
-            margin-bottom: 6px;
+            gap: 10px;
+
+            flex-shrink: 0;
+
+            margin-bottom: 2px;
         }
 
+
+        /* 左侧绿色图标 */
+
         .header-icon {
-            width: 52px;
-            height: 52px;
+            width: 34px;
+            height: 34px;
+
+            flex-shrink: 0;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            flex-shrink: 0;
-
-            border-radius: 12px;
+            border-radius: 9px;
 
             color: #ffffff;
-            font-size: 28px;
+
+            font-size: 21px;
+            font-weight: 600;
 
             background:
                 linear-gradient(
                     145deg,
-                    #66c878,
-                    #299447
+                    #62c875 0%,
+                    #299447 100%
                 );
 
             box-shadow:
-                0 6px 15px rgba(49, 151, 75, 0.20);
+                0 4px 10px
+                rgba(49, 151, 75, 0.16);
         }
+
+
+        /* 主标题 */
 
         .header-title {
-            font-size: 29px;
+            font-size: 21px;
             line-height: 1.2;
+
             font-weight: 700;
 
-            color: #173d25;
+            color: #174426;
 
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+
+            white-space: nowrap;
         }
+
+
+        /* 副标题 */
 
         .subtitle {
-            margin-left: 68px;
-            margin-bottom: 20px;
+            margin-left: 44px;
 
-            color: #606b64;
+            margin-top: 1px;
+            margin-bottom: 7px;
 
-            font-size: 17px;
-            line-height: 1.6;
+            flex-shrink: 0;
+
+            font-size: 11px;
+            line-height: 1.4;
+
+            color: #69756d;
+
+            white-space: nowrap;
         }
 
 
-        /* =========================
-           处方卡片
-        ========================= */
+        /* ========================================
+           4. 三张卡片容器
+        ======================================== */
+
+        .cards {
+            flex: 1;
+
+            min-height: 0;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+
+        /* ========================================
+           5. 单张风险卡片
+        ======================================== */
+
         .risk-card {
             position: relative;
+
+            flex: 1;
+
+            min-height: 0;
+
+            width: 100%;
 
             display: grid;
 
             grid-template-columns:
-                1fr
-                150px
+                minmax(0, 1fr)
+                86px
                 1px
-                180px;
+                124px;
 
             align-items: center;
 
-            gap: 22px;
-
-            width: 100%;
-
-            min-height: 175px;
-
-            margin-bottom: 15px;
+            gap: 9px;
 
             padding:
-                22px
-                22px
-                22px
-                25px;
+                8px
+                10px
+                8px
+                13px;
 
-            background:
-                rgba(255, 255, 255, 0.91);
+            border-radius: 12px;
 
             border:
-                1px solid rgba(64, 112, 75, 0.13);
+                1px solid
+                rgba(76, 112, 84, 0.12);
 
-            border-radius: 18px;
+            background:
+                rgba(255, 255, 255, 0.90);
 
             box-shadow:
-                0 7px 22px rgba(44, 91, 56, 0.09);
+                0 4px 13px
+                rgba(41, 82, 50, 0.07);
 
             overflow: hidden;
 
             transition:
-                transform 0.25s ease,
-                box-shadow 0.25s ease;
+                transform 0.20s ease,
+                box-shadow 0.20s ease;
         }
+
 
         .risk-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
 
             box-shadow:
-                0 11px 27px rgba(44, 91, 56, 0.13);
+                0 7px 17px
+                rgba(41, 82, 50, 0.11);
         }
 
 
-        /* 卡片左侧颜色线 */
+        /* ========================================
+           6. 卡片左侧彩色竖线
+        ======================================== */
+
         .risk-card::before {
             content: "";
 
@@ -171,41 +236,49 @@
             top: 0;
             bottom: 0;
 
-            width: 4px;
+            width: 3px;
         }
+
 
         .weather::before {
-            background: #ee4037;
+            background: #ef4038;
         }
 
+
         .price::before {
-            background: #ff8c1b;
+            background: #ff8a12;
         }
+
 
         .supply::before {
             background: #2eae59;
         }
 
 
-        /* =========================
-           卡片左侧主体
-        ========================= */
+        /* ========================================
+           7. 卡片左侧主要内容
+        ======================================== */
+
         .card-main {
             min-width: 0;
         }
+
 
         .card-title-row {
             display: flex;
             align-items: center;
 
-            gap: 15px;
+            gap: 8px;
 
-            margin-bottom: 12px;
+            margin-bottom: 4px;
         }
 
+
+        /* 数字圆 */
+
         .number {
-            width: 39px;
-            height: 39px;
+            width: 27px;
+            height: 27px;
 
             flex-shrink: 0;
 
@@ -215,204 +288,278 @@
 
             border-radius: 50%;
 
-            color: white;
+            color: #ffffff;
 
-            font-size: 23px;
+            font-size: 15px;
             font-weight: 700;
 
             box-shadow:
-                0 3px 8px rgba(0, 0, 0, 0.14);
+                0 2px 5px
+                rgba(0, 0, 0, 0.12);
         }
+
 
         .weather .number {
             background:
                 linear-gradient(
                     145deg,
-                    #f14a42,
-                    #dc2f27
+                    #f24c43,
+                    #df3028
                 );
         }
+
 
         .price .number {
             background:
                 linear-gradient(
                     145deg,
-                    #ffa328,
-                    #f07c08
+                    #ffa128,
+                    #f27b08
                 );
         }
+
 
         .supply .number {
             background:
                 linear-gradient(
                     145deg,
-                    #39b963,
-                    #239648
+                    #3abb65,
+                    #259848
                 );
         }
 
+
+        /* 卡片标题 */
+
         .card-title {
-            font-size: 27px;
+            font-size: 17px;
+
+            line-height: 1.2;
+
             font-weight: 700;
 
-            color: #141d17;
+            color: #162019;
 
-            letter-spacing: 1px;
+            white-space: nowrap;
         }
 
 
-        /* =========================
-           建议文本
-        ========================= */
+        /* ========================================
+           8. 处方建议
+        ======================================== */
+
         .suggestions {
-            margin-left: 55px;
+            margin-left: 36px;
 
-            list-style-position: outside;
+            padding-left: 12px;
         }
+
 
         .suggestions li {
-            margin: 6px 0;
+            margin: 1px 0;
 
-            color: #424c46;
+            font-size: 11px;
 
-            font-size: 17px;
-            line-height: 1.55;
+            line-height: 1.4;
+
+            color: #4f5c53;
         }
 
 
-        /* =========================
-           风险标签
-        ========================= */
+        /* ========================================
+           9. 标签
+        ======================================== */
+
         .tags {
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
 
-            gap: 12px;
+            gap: 5px;
 
-            margin-top: 11px;
-            margin-left: 55px;
+            margin-left: 36px;
+            margin-top: 4px;
         }
+
 
         .tag {
-            padding: 6px 16px;
+            display: inline-flex;
 
-            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
 
-            font-size: 15px;
+            padding:
+                3px
+                8px;
+
+            border-radius: 6px;
+
+            font-size: 10px;
+
+            line-height: 1.2;
+
             font-weight: 600;
+
+            white-space: nowrap;
         }
+
 
         .weather .tag {
-            color: #e44840;
-            background: #ffe9e6;
+            color: #e34840;
+
+            background:
+                rgba(255, 227, 224, 0.95);
         }
+
 
         .price .tag {
-            color: #f18118;
-            background: #fff0dc;
+            color: #ef8118;
+
+            background:
+                rgba(255, 238, 216, 0.96);
         }
+
 
         .supply .tag {
-            color: #26954a;
-            background: #e2f5e7;
+            color: #27964b;
+
+            background:
+                rgba(223, 244, 229, 0.96);
         }
 
 
-        /* =========================
-           中间状态
-        ========================= */
+        /* ========================================
+           10. 优先级标签
+        ======================================== */
+
         .priority {
             display: flex;
+
             justify-content: center;
             align-items: center;
         }
 
-        .priority-badge {
-            padding: 9px 19px;
 
-            border-radius: 20px;
+        .priority-badge {
+            padding:
+                5px
+                10px;
+
+            border-radius: 15px;
+
+            font-size: 11px;
+
+            line-height: 1.2;
+
+            font-weight: 700;
 
             white-space: nowrap;
-
-            font-size: 17px;
-            font-weight: 700;
         }
+
 
         .weather .priority-badge {
-            color: #e6473f;
-            background: #ffe5e1;
+            color: #e54840;
+
+            background:
+                rgba(255, 228, 224, 0.96);
         }
+
 
         .price .priority-badge {
-            color: #ef8218;
-            background: #fff0dc;
+            color: #ef8117;
+
+            background:
+                rgba(255, 239, 218, 0.96);
         }
+
 
         .supply .priority-badge {
-            color: #278d48;
-            background: #e1f2e5;
+            color: #298f49;
+
+            background:
+                rgba(226, 244, 231, 0.96);
         }
 
 
-        /* =========================
-           分割线
-        ========================= */
+        /* ========================================
+           11. 中间分隔线
+        ======================================== */
+
         .divider {
             width: 1px;
-            height: 105px;
+
+            height: 68%;
 
             background:
                 linear-gradient(
                     to bottom,
                     transparent,
-                    #d9dedb 15%,
-                    #d9dedb 85%,
+                    rgba(101, 126, 108, 0.22) 15%,
+                    rgba(101, 126, 108, 0.22) 85%,
                     transparent
                 );
         }
 
 
-        /* =========================
-           右侧按钮
-        ========================= */
+        /* ========================================
+           12. 右侧按钮
+        ======================================== */
+
         .actions {
             display: flex;
+
             flex-direction: column;
 
-            gap: 17px;
+            justify-content: center;
+
+            gap: 6px;
         }
+
 
         .action-btn {
             width: 100%;
-            height: 48px;
+
+            height: 30px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
-            gap: 9px;
+            gap: 5px;
 
             cursor: pointer;
 
             border:
-                1.5px solid #65b177;
+                1px solid
+                #62af75;
 
-            border-radius: 9px;
+            border-radius: 7px;
 
             background:
-                rgba(250, 255, 251, 0.88);
+                rgba(252, 255, 252, 0.92);
 
-            color: #278244;
+            color: #288347;
 
-            font-size: 17px;
+            font-family: inherit;
+
+            font-size: 11px;
+
+            line-height: 1;
+
             font-weight: 600;
 
+            white-space: nowrap;
+
             transition:
-                all 0.22s ease;
+                background 0.18s ease,
+                color 0.18s ease,
+                transform 0.18s ease,
+                box-shadow 0.18s ease;
         }
 
+
         .action-btn:hover {
-            color: white;
+            color: #ffffff;
 
             background:
                 linear-gradient(
@@ -423,93 +570,272 @@
 
             border-color: transparent;
 
-            box-shadow:
-                0 5px 13px rgba(48, 146, 74, 0.20);
-
             transform: translateY(-1px);
+
+            box-shadow:
+                0 4px 10px
+                rgba(46, 150, 80, 0.18);
         }
 
+
+        /* 查看证据链箭头 */
+
         .arrow {
-            font-size: 22px;
+            font-size: 14px;
             line-height: 1;
         }
 
+
+        /* AI 小圆图标 */
+
         .ai-icon {
-            width: 21px;
-            height: 21px;
+            width: 15px;
+            height: 15px;
+
+            flex-shrink: 0;
 
             display: inline-flex;
+
             align-items: center;
             justify-content: center;
 
             border-radius: 50%;
 
-            color: white;
-            background: #28954b;
+            color: #ffffff;
 
-            font-size: 12px;
+            background: #29954b;
+
+            font-size: 7px;
+
+            font-weight: 700;
+
+            letter-spacing: -1px;
         }
+
 
         .action-btn:hover .ai-icon {
+            background: #ffffff;
+
             color: #29954b;
-            background: white;
         }
 
 
-        /* =========================
-           Smartbi 小尺寸适配
-        ========================= */
-        @media (max-width: 900px) {
+        /* ========================================
+           13. 较窄 Smartbi 容器适配
+        ======================================== */
+
+        @media (max-width: 760px) {
 
             body {
-                padding: 10px;
+                padding: 4px 5px;
             }
+
+
+            .header-icon {
+                width: 30px;
+                height: 30px;
+
+                font-size: 18px;
+            }
+
+
+            .header-title {
+                font-size: 18px;
+            }
+
+
+            .subtitle {
+                margin-left: 40px;
+
+                margin-bottom: 5px;
+
+                font-size: 10px;
+            }
+
+
+            .cards {
+                gap: 5px;
+            }
+
 
             .risk-card {
                 grid-template-columns:
-                    1fr
-                    125px
+                    minmax(0, 1fr)
+                    72px
                     1px
-                    150px;
+                    105px;
 
-                gap: 12px;
+                gap: 6px;
 
                 padding:
-                    18px
-                    15px
-                    18px
-                    20px;
+                    6px
+                    7px
+                    6px
+                    10px;
             }
+
+
+            .number {
+                width: 24px;
+                height: 24px;
+
+                font-size: 13px;
+            }
+
 
             .card-title {
-                font-size: 22px;
+                font-size: 15px;
             }
+
+
+            .suggestions {
+                margin-left: 32px;
+            }
+
 
             .suggestions li {
+                font-size: 10px;
+            }
+
+
+            .tags {
+                margin-left: 32px;
+            }
+
+
+            .tag {
+                padding:
+                    2px
+                    6px;
+
+                font-size: 9px;
+            }
+
+
+            .priority-badge {
+                padding:
+                    4px
+                    7px;
+
+                font-size: 10px;
+            }
+
+
+            .action-btn {
+                height: 27px;
+
+                font-size: 10px;
+            }
+
+        }
+
+
+        /* ========================================
+           14. 很小高度容器适配
+        ======================================== */
+
+        @media (max-height: 520px) {
+
+            body {
+                padding-top: 3px;
+                padding-bottom: 3px;
+            }
+
+
+            .header-icon {
+                width: 29px;
+                height: 29px;
+
+                font-size: 18px;
+            }
+
+
+            .header-title {
+                font-size: 18px;
+            }
+
+
+            .subtitle {
+                margin-bottom: 4px;
+
+                font-size: 10px;
+            }
+
+
+            .cards {
+                gap: 5px;
+            }
+
+
+            .risk-card {
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+
+
+            .number {
+                width: 23px;
+                height: 23px;
+
+                font-size: 13px;
+            }
+
+
+            .card-title {
                 font-size: 15px;
             }
 
-            .action-btn {
-                font-size: 15px;
+
+            .suggestions li {
+                font-size: 9.5px;
+
+                line-height: 1.25;
             }
+
+
+            .tag {
+                padding:
+                    2px
+                    6px;
+
+                font-size: 9px;
+            }
+
+
+            .priority-badge {
+                font-size: 9.5px;
+            }
+
+
+            .action-btn {
+                height: 25px;
+
+                font-size: 9.5px;
+            }
+
         }
 
     </style>
+
 </head>
 
 
 <body>
 
+
 <div class="prescription-panel">
 
-    <!-- =========================
-         标题
-    ========================== -->
+
+    <!-- ========================================
+         顶部标题
+    ========================================= -->
+
     <div class="header">
 
         <div class="header-icon">
             ✓
         </div>
+
 
         <div class="header-title">
             高风险地市智能处方
@@ -517,283 +843,362 @@
 
     </div>
 
+
     <div class="subtitle">
         三门峡市 · 针对天气、价格、供给三类核心风险生成
     </div>
 
 
-    <!-- =========================
-         1 天气风险
-    ========================== -->
-    <div class="risk-card weather">
 
-        <div class="card-main">
+    <!-- ========================================
+         三张智能处方卡片
+    ========================================= -->
 
-            <div class="card-title-row">
+    <div class="cards">
 
-                <div class="number">
-                    1
+
+        <!-- ====================================
+             1. 天气风险
+        ===================================== -->
+
+        <div class="risk-card weather">
+
+
+            <div class="card-main">
+
+
+                <div class="card-title-row">
+
+                    <div class="number">
+                        1
+                    </div>
+
+                    <div class="card-title">
+                        天气风险应对
+                    </div>
+
                 </div>
 
-                <div class="card-title">
-                    天气风险应对
+
+                <ul class="suggestions">
+
+                    <li>
+                        加强气象预警监测，引导农户采取防灾减灾措施
+                    </li>
+
+                    <li>
+                        针对受灾品种启动应急抢收或烘干补贴
+                    </li>
+
+                </ul>
+
+
+                <div class="tags">
+
+                    <span class="tag">
+                        天气风险 ↑
+                    </span>
+
+                    <span class="tag">
+                        应急抢收
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="priority">
+
+                <div class="priority-badge">
+                    优先处置
                 </div>
 
             </div>
 
-            <ul class="suggestions">
 
-                <li>
-                    加强气象预警监测，引导农户采取防灾减灾措施
-                </li>
+            <div class="divider"></div>
 
-                <li>
-                    针对受灾品种启动应急抢收或烘干补贴
-                </li>
 
-            </ul>
+            <div class="actions">
 
-            <div class="tags">
 
-                <span class="tag">
-                    天气风险 ↑
-                </span>
+                <button
+                    class="action-btn"
+                    onclick="goToAI()"
+                >
+                    查看证据链
 
-                <span class="tag">
-                    应急抢收
-                </span>
+                    <span class="arrow">
+                        →
+                    </span>
+                </button>
+
+
+                <button
+                    class="action-btn"
+                    onclick="goToAI()"
+                >
+
+                    <span class="ai-icon">
+                        •••
+                    </span>
+
+                    向AI追问
+
+                </button>
+
 
             </div>
 
+
         </div>
 
 
-        <div class="priority">
 
-            <div class="priority-badge">
-                优先处置
+        <!-- ====================================
+             2. 价格风险
+        ===================================== -->
+
+        <div class="risk-card price">
+
+
+            <div class="card-main">
+
+
+                <div class="card-title-row">
+
+                    <div class="number">
+                        2
+                    </div>
+
+                    <div class="card-title">
+                        价格风险应对
+                    </div>
+
+                </div>
+
+
+                <ul class="suggestions">
+
+                    <li>
+                        执行最低收购价兜底政策，防止价格跌破成本线
+                    </li>
+
+                    <li>
+                        加强市场价格监测，引导理性预期
+                    </li>
+
+                </ul>
+
+
+                <div class="tags">
+
+                    <span class="tag">
+                        价格风险 ↑
+                    </span>
+
+                    <span class="tag">
+                        最低收购价
+                    </span>
+
+                </div>
+
+
             </div>
 
+
+            <div class="priority">
+
+                <div class="priority-badge">
+                    重点干预
+                </div>
+
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <div class="actions">
+
+
+                <button
+                    class="action-btn"
+                    onclick="goToAI()"
+                >
+                    查看证据链
+
+                    <span class="arrow">
+                        →
+                    </span>
+                </button>
+
+
+                <button
+                    class="action-btn"
+                    onclick="goToAI()"
+                >
+
+                    <span class="ai-icon">
+                        •••
+                    </span>
+
+                    向AI追问
+
+                </button>
+
+
+            </div>
+
+
         </div>
 
 
-        <div class="divider"></div>
+
+        <!-- ====================================
+             3. 供给风险
+        ===================================== -->
+
+        <div class="risk-card supply">
 
 
-        <div class="actions">
+            <div class="card-main">
 
-            <button
-                class="action-btn"
-                onclick="goToAI()"
-            >
-                查看证据链
-                <span class="arrow">→</span>
-            </button>
 
-            <button
-                class="action-btn"
-                onclick="goToAI()"
-            >
-                <span class="ai-icon">•••</span>
-                向AI追问
-            </button>
+                <div class="card-title-row">
+
+                    <div class="number">
+                        3
+                    </div>
+
+                    <div class="card-title">
+                        供给风险应对
+                    </div>
+
+                </div>
+
+
+                <ul class="suggestions">
+
+                    <li>
+                        优化种植结构、推广复合种植技术，缓解产能过剩
+                    </li>
+
+                    <li>
+                        引导农户错峰生产
+                    </li>
+
+                </ul>
+
+
+                <div class="tags">
+
+                    <span class="tag">
+                        供给风险
+                    </span>
+
+                    <span class="tag">
+                        错峰生产
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="priority">
+
+                <div class="priority-badge">
+                    持续优化
+                </div>
+
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <div class="actions">
+
+
+                <button
+                    class="action-btn"
+                    onclick="goToAI()"
+                >
+                    查看证据链
+
+                    <span class="arrow">
+                        →
+                    </span>
+                </button>
+
+
+                <button
+                    class="action-btn"
+                    onclick="goToAI()"
+                >
+
+                    <span class="ai-icon">
+                        •••
+                    </span>
+
+                    向AI追问
+
+                </button>
+
+
+            </div>
+
 
         </div>
+
 
     </div>
 
-
-    <!-- =========================
-         2 价格风险
-    ========================== -->
-    <div class="risk-card price">
-
-        <div class="card-main">
-
-            <div class="card-title-row">
-
-                <div class="number">
-                    2
-                </div>
-
-                <div class="card-title">
-                    价格风险应对
-                </div>
-
-            </div>
-
-            <ul class="suggestions">
-
-                <li>
-                    执行最低收购价兜底政策，防止价格跌破成本线
-                </li>
-
-                <li>
-                    加强市场价格监测，引导理性预期
-                </li>
-
-            </ul>
-
-            <div class="tags">
-
-                <span class="tag">
-                    价格风险 ↑
-                </span>
-
-                <span class="tag">
-                    最低收购价
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div class="priority">
-
-            <div class="priority-badge">
-                重点干预
-            </div>
-
-        </div>
-
-
-        <div class="divider"></div>
-
-
-        <div class="actions">
-
-            <button
-                class="action-btn"
-                onclick="goToAI()"
-            >
-                查看证据链
-                <span class="arrow">→</span>
-            </button>
-
-            <button
-                class="action-btn"
-                onclick="goToAI()"
-            >
-                <span class="ai-icon">•••</span>
-                向AI追问
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         3 供给风险
-    ========================== -->
-    <div class="risk-card supply">
-
-        <div class="card-main">
-
-            <div class="card-title-row">
-
-                <div class="number">
-                    3
-                </div>
-
-                <div class="card-title">
-                    供给风险应对
-                </div>
-
-            </div>
-
-            <ul class="suggestions">
-
-                <li>
-                    优化种植结构、推广复合种植技术，缓解产能过剩
-                </li>
-
-                <li>
-                    引导农户错峰生产
-                </li>
-
-            </ul>
-
-            <div class="tags">
-
-                <span class="tag">
-                    供给风险
-                </span>
-
-                <span class="tag">
-                    错峰生产
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div class="priority">
-
-            <div class="priority-badge">
-                持续优化
-            </div>
-
-        </div>
-
-
-        <div class="divider"></div>
-
-
-        <div class="actions">
-
-            <button
-                class="action-btn"
-                onclick="goToAI()"
-            >
-                查看证据链
-                <span class="arrow">→</span>
-            </button>
-
-            <button
-                class="action-btn"
-                onclick="goToAI()"
-            >
-                <span class="ai-icon">•••</span>
-                向AI追问
-            </button>
-
-        </div>
-
-    </div>
 
 </div>
 
 
+
 <script>
 
-    /*
-     * Smartbi AIChat 地址
-     * 「查看证据链」和「向AI追问」
-     * 6 个按钮统一跳转到这里
-     */
-const AI_PAGE =
-    "https://tiaozhanbei.cloud.smartbi.com.cn/smartbi/vision/aichat/proxy/#/canvas/chat/bYJuatiqjaVa";
+    /* ========================================
+       Smartbi AIChat 目标地址
+    ======================================== */
+
+    const AI_PAGE =
+        "https://tiaozhanbei.cloud.smartbi.com.cn/smartbi/vision/aichat/proxy/#/canvas/chat/bYJuatiqjaVa";
 
 
-    /*
-     * 点击按钮跳转到 Smartbi AIChat
-     */
+    /* ========================================
+       Smartbi 页面跳转
+    ======================================== */
+
     function goToAI() {
 
         try {
 
-            // 优先让整个浏览器页面跳转到 AIChat
-            // 防止只在当前 HTML 小组件内部打开
+            /*
+             * 优先跳转整个 Smartbi 浏览器页面，
+             * 避免只在 URL 小组件内部打开。
+             */
             window.top.location.href = AI_PAGE;
 
-        } catch (error) {
+        }
 
-            // 如果 Smartbi iframe 跨域限制导致无法操作顶层页面
-            // 则使用新标签页打开
-            window.open(AI_PAGE, "_blank");
+        catch (error) {
+
+            /*
+             * 如果 iframe 跨域策略阻止访问 top，
+             * 就用新标签页打开。
+             */
+            window.open(
+                AI_PAGE,
+                "_blank"
+            );
 
         }
 
@@ -801,5 +1206,7 @@ const AI_PAGE =
 
 </script>
 
+
 </body>
+
 </html>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>高风险地市智能处方</title>
+
+    <style>
+        /* =========================
+           全局
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            font-family:
+                "Microsoft YaHei",
+                "PingFang SC",
+                Arial,
+                sans-serif;
+
+            /* Smartbi 中保持透明 */
+            background: transparent;
+
+            color: #18241d;
+        }
+
+        body {
+            padding: 16px 18px 18px;
+        }
+
+
+        /* =========================
+           整体容器
+        ========================= */
+        .prescription-panel {
+            width: 100%;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+
+        /* =========================
+           顶部标题
+        ========================= */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            margin-bottom: 6px;
+        }
+
+        .header-icon {
+            width: 52px;
+            height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border-radius: 12px;
+
+            color: #ffffff;
+            font-size: 28px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #66c878,
+                    #299447
+                );
+
+            box-shadow:
+                0 6px 15px rgba(49, 151, 75, 0.20);
+        }
+
+        .header-title {
+            font-size: 29px;
+            line-height: 1.2;
+            font-weight: 700;
+
+            color: #173d25;
+
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            margin-left: 68px;
+            margin-bottom: 20px;
+
+            color: #606b64;
+
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           处方卡片
+        ========================= */
+        .risk-card {
+            position: relative;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                150px
+                1px
+                180px;
+
+            align-items: center;
+
+            gap: 22px;
+
+            width: 100%;
+
+            min-height: 175px;
+
+            margin-bottom: 15px;
+
+            padding:
+                22px
+                22px
+                22px
+                25px;
+
+            background:
+                rgba(255, 255, 255, 0.91);
+
+            border:
+                1px solid rgba(64, 112, 75, 0.13);
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 7px 22px rgba(44, 91, 56, 0.09);
+
+            overflow: hidden;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .risk-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 11px 27px rgba(44, 91, 56, 0.13);
+        }
+
+
+        /* 卡片左侧颜色线 */
+        .risk-card::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 4px;
+        }
+
+        .weather::before {
+            background: #ee4037;
+        }
+
+        .price::before {
+            background: #ff8c1b;
+        }
+
+        .supply::before {
+            background: #2eae59;
+        }
+
+
+        /* =========================
+           卡片左侧主体
+        ========================= */
+        .card-main {
+            min-width: 0;
+        }
+
+        .card-title-row {
+            display: flex;
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 12px;
+        }
+
+        .number {
+            width: 39px;
+            height: 39px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: white;
+
+            font-size: 23px;
+            font-weight: 700;
+
+            box-shadow:
+                0 3px 8px rgba(0, 0, 0, 0.14);
+        }
+
+        .weather .number {
+            background:
+                linear-gradient(
+                    145deg,
+                    #f14a42,
+                    #dc2f27
+                );
+        }
+
+        .price .number {
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffa328,
+                    #f07c08
+                );
+        }
+
+        .supply .number {
+            background:
+                linear-gradient(
+                    145deg,
+                    #39b963,
+                    #239648
+                );
+        }
+
+        .card-title {
+            font-size: 27px;
+            font-weight: 700;
+
+            color: #141d17;
+
+            letter-spacing: 1px;
+        }
+
+
+        /* =========================
+           建议文本
+        ========================= */
+        .suggestions {
+            margin-left: 55px;
+
+            list-style-position: outside;
+        }
+
+        .suggestions li {
+            margin: 6px 0;
+
+            color: #424c46;
+
+            font-size: 17px;
+            line-height: 1.55;
+        }
+
+
+        /* =========================
+           风险标签
+        ========================= */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-top: 11px;
+            margin-left: 55px;
+        }
+
+        .tag {
+            padding: 6px 16px;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .weather .tag {
+            color: #e44840;
+            background: #ffe9e6;
+        }
+
+        .price .tag {
+            color: #f18118;
+            background: #fff0dc;
+        }
+
+        .supply .tag {
+            color: #26954a;
+            background: #e2f5e7;
+        }
+
+
+        /* =========================
+           中间状态
+        ========================= */
+        .priority {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .priority-badge {
+            padding: 9px 19px;
+
+            border-radius: 20px;
+
+            white-space: nowrap;
+
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .weather .priority-badge {
+            color: #e6473f;
+            background: #ffe5e1;
+        }
+
+        .price .priority-badge {
+            color: #ef8218;
+            background: #fff0dc;
+        }
+
+        .supply .priority-badge {
+            color: #278d48;
+            background: #e1f2e5;
+        }
+
+
+        /* =========================
+           分割线
+        ========================= */
+        .divider {
+            width: 1px;
+            height: 105px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    transparent,
+                    #d9dedb 15%,
+                    #d9dedb 85%,
+                    transparent
+                );
+        }
+
+
+        /* =========================
+           右侧按钮
+        ========================= */
+        .actions {
+            display: flex;
+            flex-direction: column;
+
+            gap: 17px;
+        }
+
+        .action-btn {
+            width: 100%;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 9px;
+
+            cursor: pointer;
+
+            border:
+                1.5px solid #65b177;
+
+            border-radius: 9px;
+
+            background:
+                rgba(250, 255, 251, 0.88);
+
+            color: #278244;
+
+            font-size: 17px;
+            font-weight: 600;
+
+            transition:
+                all 0.22s ease;
+        }
+
+        .action-btn:hover {
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #55b76e,
+                    #2e9650
+                );
+
+            border-color: transparent;
+
+            box-shadow:
+                0 5px 13px rgba(48, 146, 74, 0.20);
+
+            transform: translateY(-1px);
+        }
+
+        .arrow {
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        .ai-icon {
+            width: 21px;
+            height: 21px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: white;
+            background: #28954b;
+
+            font-size: 12px;
+        }
+
+        .action-btn:hover .ai-icon {
+            color: #29954b;
+            background: white;
+        }
+
+
+        /* =========================
+           Smartbi 小尺寸适配
+        ========================= */
+        @media (max-width: 900px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .risk-card {
+                grid-template-columns:
+                    1fr
+                    125px
+                    1px
+                    150px;
+
+                gap: 12px;
+
+                padding:
+                    18px
+                    15px
+                    18px
+                    20px;
+            }
+
+            .card-title {
+                font-size: 22px;
+            }
+
+            .suggestions li {
+                font-size: 15px;
+            }
+
+            .action-btn {
+                font-size: 15px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="prescription-panel">
+
+    <!-- =========================
+         标题
+    ========================== -->
+    <div class="header">
+
+        <div class="header-icon">
+            ✓
+        </div>
+
+        <div class="header-title">
+            高风险地市智能处方
+        </div>
+
+    </div>
+
+    <div class="subtitle">
+        三门峡市 · 针对天气、价格、供给三类核心风险生成
+    </div>
+
+
+    <!-- =========================
+         1 天气风险
+    ========================== -->
+    <div class="risk-card weather">
+
+        <div class="card-main">
+
+            <div class="card-title-row">
+
+                <div class="number">
+                    1
+                </div>
+
+                <div class="card-title">
+                    天气风险应对
+                </div>
+
+            </div>
+
+            <ul class="suggestions">
+
+                <li>
+                    加强气象预警监测，引导农户采取防灾减灾措施
+                </li>
+
+                <li>
+                    针对受灾品种启动应急抢收或烘干补贴
+                </li>
+
+            </ul>
+
+            <div class="tags">
+
+                <span class="tag">
+                    天气风险 ↑
+                </span>
+
+                <span class="tag">
+                    应急抢收
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="priority">
+
+            <div class="priority-badge">
+                优先处置
+            </div>
+
+        </div>
+
+
+        <div class="divider"></div>
+
+
+        <div class="actions">
+
+            <button
+                class="action-btn"
+                onclick="goToAI()"
+            >
+                查看证据链
+                <span class="arrow">→</span>
+            </button>
+
+            <button
+                class="action-btn"
+                onclick="goToAI()"
+            >
+                <span class="ai-icon">•••</span>
+                向AI追问
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         2 价格风险
+    ========================== -->
+    <div class="risk-card price">
+
+        <div class="card-main">
+
+            <div class="card-title-row">
+
+                <div class="number">
+                    2
+                </div>
+
+                <div class="card-title">
+                    价格风险应对
+                </div>
+
+            </div>
+
+            <ul class="suggestions">
+
+                <li>
+                    执行最低收购价兜底政策，防止价格跌破成本线
+                </li>
+
+                <li>
+                    加强市场价格监测，引导理性预期
+                </li>
+
+            </ul>
+
+            <div class="tags">
+
+                <span class="tag">
+                    价格风险 ↑
+                </span>
+
+                <span class="tag">
+                    最低收购价
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="priority">
+
+            <div class="priority-badge">
+                重点干预
+            </div>
+
+        </div>
+
+
+        <div class="divider"></div>
+
+
+        <div class="actions">
+
+            <button
+                class="action-btn"
+                onclick="goToAI()"
+            >
+                查看证据链
+                <span class="arrow">→</span>
+            </button>
+
+            <button
+                class="action-btn"
+                onclick="goToAI()"
+            >
+                <span class="ai-icon">•••</span>
+                向AI追问
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         3 供给风险
+    ========================== -->
+    <div class="risk-card supply">
+
+        <div class="card-main">
+
+            <div class="card-title-row">
+
+                <div class="number">
+                    3
+                </div>
+
+                <div class="card-title">
+                    供给风险应对
+                </div>
+
+            </div>
+
+            <ul class="suggestions">
+
+                <li>
+                    优化种植结构、推广复合种植技术，缓解产能过剩
+                </li>
+
+                <li>
+                    引导农户错峰生产
+                </li>
+
+            </ul>
+
+            <div class="tags">
+
+                <span class="tag">
+                    供给风险
+                </span>
+
+                <span class="tag">
+                    错峰生产
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="priority">
+
+            <div class="priority-badge">
+                持续优化
+            </div>
+
+        </div>
+
+
+        <div class="divider"></div>
+
+
+        <div class="actions">
+
+            <button
+                class="action-btn"
+                onclick="goToAI()"
+            >
+                查看证据链
+                <span class="arrow">→</span>
+            </button>
+
+            <button
+                class="action-btn"
+                onclick="goToAI()"
+            >
+                <span class="ai-icon">•••</span>
+                向AI追问
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+     * Smartbi AIChat 地址
+     * 「查看证据链」和「向AI追问」
+     * 6 个按钮统一跳转到这里
+     */
+const AI_PAGE =
+    "https://tiaozhanbei.cloud.smartbi.com.cn/smartbi/vision/aichat/proxy/#/canvas/chat/bYJuatiqjaVa";
+
+
+    /*
+     * 点击按钮跳转到 Smartbi AIChat
+     */
+    function goToAI() {
+
+        try {
+
+            // 优先让整个浏览器页面跳转到 AIChat
+            // 防止只在当前 HTML 小组件内部打开
+            window.top.location.href = AI_PAGE;
+
+        } catch (error) {
+
+            // 如果 Smartbi iframe 跨域限制导致无法操作顶层页面
+            // 则使用新标签页打开
+            window.open(AI_PAGE, "_blank");
+
+        }
+
+    }
+
+</script>
+
+</body>
+</html>

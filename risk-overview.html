@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -12,6 +13,10 @@
     <title>风险研判总览</title>
 
     <style>
+
+        /* ========================================
+           全局
+        ======================================== */
 
         * {
             margin: 0;
@@ -38,84 +43,81 @@
         }
 
         body {
-            padding: 7px 8px;
+            padding: 6px 7px;
         }
 
 
-        /* =========================
-           整体卡片
-        ========================= */
+        /* ========================================
+           主卡片
+        ======================================== */
 
         .overview-card {
-            width: 316px;
-            height: 316px;
+
+            width: 318px;
+            height: 318px;
 
             padding:
-                13px
+                12px
                 14px
-                12px;
+                10px;
 
             border-radius: 18px;
 
             border:
                 1px solid
-                rgba(75, 112, 83, 0.11);
+                rgba(78, 111, 85, 0.10);
 
             background:
-                rgba(255, 255, 255, 0.90);
+                rgba(255,255,255,0.89);
 
             box-shadow:
                 0 5px 16px
-                rgba(46, 84, 55, 0.08);
+                rgba(45, 84, 54, 0.08);
 
             overflow: hidden;
         }
 
 
-        /* =========================
-           顶部标题
-        ========================= */
+        /* ========================================
+           标题
+        ======================================== */
 
         .header {
-            height: 42px;
+
+            height: 44px;
 
             display: flex;
+
             align-items: center;
 
             gap: 9px;
+
+            flex-shrink: 0;
         }
 
+
+        /*
+         * 第一张图
+         * 风险研判总览
+         */
+
         .header-icon {
-            width: 32px;
-            height: 32px;
+
+            width: 34px;
+            height: 34px;
 
             flex-shrink: 0;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            object-fit: contain;
 
-            border-radius: 50%;
-
-            color: #ffffff;
-
-            font-size: 18px;
-            font-weight: 700;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #63c979,
-                    #299447
-                );
-
-            box-shadow:
-                0 3px 8px
-                rgba(49, 151, 75, 0.18);
+            display: block;
         }
 
+
         .header-title {
+
             font-size: 20px;
+
             line-height: 1;
 
             font-weight: 700;
@@ -126,144 +128,104 @@
         }
 
 
-        /* =========================
-           内容区域
-        ========================= */
+
+        /* ========================================
+           下方四行
+        ======================================== */
 
         .rows {
-            height: 248px;
 
-            margin-top: 4px;
+            height: 250px;
 
             display: flex;
+
             flex-direction: column;
         }
 
 
-        /* =========================
-           单行
-        ========================= */
-
         .row {
+
+            position: relative;
+
             flex: 1;
+
+            min-height: 0;
 
             display: grid;
 
             grid-template-columns:
-                35px
+                36px
                 minmax(0, 1fr)
-                104px;
+                102px;
 
             align-items: center;
 
             gap: 8px;
-
-            position: relative;
-        }
-
-        .row:not(:last-child)::after {
-            content: "";
-
-            position: absolute;
-
-            left: 44px;
-            right: 0;
-            bottom: 0;
-
-            height: 1px;
-
-            background:
-                rgba(101, 126, 108, 0.16);
         }
 
 
-        /* =========================
-           左侧图标
-        ========================= */
+
+        /* ========================================
+           行图标
+        ======================================== */
 
         .row-icon {
-            width: 30px;
-            height: 30px;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 31px;
+            height: 31px;
 
-            border-radius: 50%;
+            object-fit: contain;
 
-            color: #ffffff;
+            display: block;
 
-            font-size: 15px;
-            font-weight: 700;
-
-            box-shadow:
-                0 2px 6px
-                rgba(0, 0, 0, 0.10);
-        }
-
-        .green {
-            background:
-                linear-gradient(
-                    145deg,
-                    #63c979,
-                    #299447
-                );
-        }
-
-        .red {
-            background:
-                linear-gradient(
-                    145deg,
-                    #ff5b50,
-                    #e43b32
-                );
-        }
-
-        .orange {
-            background:
-                linear-gradient(
-                    145deg,
-                    #ffa128,
-                    #f27b08
-                );
-        }
-
-        .yellow {
-            background:
-                linear-gradient(
-                    145deg,
-                    #ffc445,
-                    #f0a600
-                );
+            justify-self: center;
         }
 
 
-        /* =========================
-           左侧文字
-        ========================= */
+        /*
+         * TOP3 黄色警告图标本身是三角，
+         * 略微比圆形图标大一点
+         */
+
+        .warning-icon {
+
+            width: 33px;
+            height: 33px;
+        }
+
+
+
+        /* ========================================
+           行标题
+        ======================================== */
 
         .label {
+
             font-size: 17px;
+
             line-height: 1.2;
 
             font-weight: 600;
 
-            color: #384139;
+            color: #3a433c;
 
             white-space: nowrap;
         }
 
 
-        /* =========================
-           右侧值
-        ========================= */
+
+        /* ========================================
+           右侧数值
+        ======================================== */
 
         .value {
+
             justify-self: end;
 
             text-align: right;
 
             font-size: 18px;
+
             line-height: 1.2;
 
             font-weight: 700;
@@ -271,66 +233,104 @@
             white-space: nowrap;
         }
 
-        .value.orange-text {
-            color: #f07c10;
+
+        /* 中风险 */
+
+        .medium-risk {
+
+            color: #f07b10;
         }
 
-        .value.red-text {
-            color: #ef443a;
+
+        /* 三门峡市 */
+
+        .high-city {
+
+            color: #ee453c;
         }
 
-        .value.score {
-            color: #f07c10;
+
+        /* 综合风险分 */
+
+        .risk-score {
+
+            color: #f07b10;
 
             font-size: 19px;
 
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
         }
 
 
-        /* =========================
-           TOP3 多行文字
-        ========================= */
+
+        /* ========================================
+           TOP3驱动因子
+        ======================================== */
 
         .drivers {
+
             justify-self: end;
 
             text-align: right;
 
-            color: #3c453e;
+            color: #39423b;
 
             font-size: 14px;
-            line-height: 1.32;
+
+            line-height: 1.34;
 
             font-weight: 600;
-
-            white-space: normal;
         }
 
 
-        /* =========================
-           小图标字符
-        ========================= */
 
-        .shield {
-            font-size: 15px;
+        /* ========================================
+           使用你的第六张横线图片
+        ======================================== */
+
+        .separator {
+
+            position: absolute;
+
+            left: 39px;
+
+            right: 0;
+
+            bottom: -1px;
+
+            height: 4px;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: center;
         }
 
-        .search {
-            font-size: 14px;
+
+        .separator img {
+
+            width: 100%;
+
+            height: 4px;
+
+            object-fit: fill;
+
+            display: block;
+
+            opacity: 0.58;
         }
 
-        .pin {
-            font-size: 15px;
+
+        /*
+         * 最后一行不需要分割线
+         */
+
+        .row:last-child .separator {
+
+            display: none;
         }
 
-        .chart {
-            font-size: 14px;
-        }
-
-        .warning {
-            font-size: 16px;
-        }
 
     </style>
 
@@ -343,15 +343,18 @@
 <div class="overview-card">
 
 
-    <!-- 顶部标题 -->
+    <!-- ========================================
+         标题
+         第 1 张图：绿色盾牌
+    ========================================= -->
 
     <div class="header">
 
-        <div class="header-icon">
-            <span class="shield">
-                ◈
-            </span>
-        </div>
+        <img
+            class="header-icon"
+            src="./risk-title.png"
+            alt=""
+        >
 
         <div class="header-title">
             风险研判总览
@@ -361,95 +364,147 @@
 
 
 
-    <!-- 内容 -->
-
     <div class="rows">
 
 
-        <!-- 整体研判 -->
+        <!-- ====================================
+             1 整体研判
+             第 2 张图：绿色放大镜
+        ===================================== -->
 
         <div class="row">
 
-            <div class="row-icon green">
-                <span class="search">
-                    ◎
-                </span>
-            </div>
+            <img
+                class="row-icon"
+                src="./risk-overall.png"
+                alt=""
+            >
+
 
             <div class="label">
                 整体研判
             </div>
 
-            <div class="value orange-text">
+
+            <div class="value medium-risk">
                 中风险
+            </div>
+
+
+            <div class="separator">
+
+                <img
+                    src="./risk-line.png"
+                    alt=""
+                >
+
             </div>
 
         </div>
 
 
 
-        <!-- 最高风险地市 -->
+        <!-- ====================================
+             2 最高风险地市
+             第 3 张图：红色定位
+        ===================================== -->
 
         <div class="row">
 
-            <div class="row-icon red">
-                <span class="pin">
-                    ●
-                </span>
-            </div>
+            <img
+                class="row-icon"
+                src="./risk-city.png"
+                alt=""
+            >
+
 
             <div class="label">
                 最高风险地市
             </div>
 
-            <div class="value red-text">
+
+            <div class="value high-city">
                 三门峡市
+            </div>
+
+
+            <div class="separator">
+
+                <img
+                    src="./risk-line.png"
+                    alt=""
+                >
+
             </div>
 
         </div>
 
 
 
-        <!-- 综合风险分 -->
+        <!-- ====================================
+             3 综合风险分
+             第 4 张图：橙色增长
+        ===================================== -->
 
         <div class="row">
 
-            <div class="row-icon orange">
-                <span class="chart">
-                    ▥
-                </span>
-            </div>
+            <img
+                class="row-icon"
+                src="./risk-score.png"
+                alt=""
+            >
+
 
             <div class="label">
                 综合风险分
             </div>
 
-            <div class="value score">
+
+            <div class="value risk-score">
                 6.6932
+            </div>
+
+
+            <div class="separator">
+
+                <img
+                    src="./risk-line.png"
+                    alt=""
+                >
+
             </div>
 
         </div>
 
 
 
-        <!-- TOP3驱动因子 -->
+        <!-- ====================================
+             4 TOP3驱动因子
+             第 5 张图：黄色警告三角
+        ===================================== -->
 
         <div class="row">
 
-            <div class="row-icon yellow">
-                <span class="warning">
-                    !
-                </span>
-            </div>
+            <img
+                class="row-icon warning-icon"
+                src="./risk-warning.png"
+                alt=""
+            >
+
 
             <div class="label">
                 TOP3驱动因子
             </div>
 
+
             <div class="drivers">
+
                 天气风险 /<br>
+
                 价格风险 /<br>
+
                 供给风险
+
             </div>
 
         </div>

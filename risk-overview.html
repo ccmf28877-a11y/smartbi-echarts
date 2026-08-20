@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=332, initial-scale=1.0"
+    >
+
+    <title>风险研判总览</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 332px;
+            height: 330px;
+
+            overflow: hidden;
+
+            background: transparent;
+
+            font-family:
+                "Microsoft YaHei",
+                "PingFang SC",
+                Arial,
+                sans-serif;
+
+            color: #172019;
+        }
+
+        body {
+            padding: 7px 8px;
+        }
+
+
+        /* =========================
+           整体卡片
+        ========================= */
+
+        .overview-card {
+            width: 316px;
+            height: 316px;
+
+            padding:
+                13px
+                14px
+                12px;
+
+            border-radius: 18px;
+
+            border:
+                1px solid
+                rgba(75, 112, 83, 0.11);
+
+            background:
+                rgba(255, 255, 255, 0.90);
+
+            box-shadow:
+                0 5px 16px
+                rgba(46, 84, 55, 0.08);
+
+            overflow: hidden;
+        }
+
+
+        /* =========================
+           顶部标题
+        ========================= */
+
+        .header {
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+        }
+
+        .header-icon {
+            width: 32px;
+            height: 32px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: #ffffff;
+
+            font-size: 18px;
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #63c979,
+                    #299447
+                );
+
+            box-shadow:
+                0 3px 8px
+                rgba(49, 151, 75, 0.18);
+        }
+
+        .header-title {
+            font-size: 20px;
+            line-height: 1;
+
+            font-weight: 700;
+
+            color: #172019;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           内容区域
+        ========================= */
+
+        .rows {
+            height: 248px;
+
+            margin-top: 4px;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /* =========================
+           单行
+        ========================= */
+
+        .row {
+            flex: 1;
+
+            display: grid;
+
+            grid-template-columns:
+                35px
+                minmax(0, 1fr)
+                104px;
+
+            align-items: center;
+
+            gap: 8px;
+
+            position: relative;
+        }
+
+        .row:not(:last-child)::after {
+            content: "";
+
+            position: absolute;
+
+            left: 44px;
+            right: 0;
+            bottom: 0;
+
+            height: 1px;
+
+            background:
+                rgba(101, 126, 108, 0.16);
+        }
+
+
+        /* =========================
+           左侧图标
+        ========================= */
+
+        .row-icon {
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: #ffffff;
+
+            font-size: 15px;
+            font-weight: 700;
+
+            box-shadow:
+                0 2px 6px
+                rgba(0, 0, 0, 0.10);
+        }
+
+        .green {
+            background:
+                linear-gradient(
+                    145deg,
+                    #63c979,
+                    #299447
+                );
+        }
+
+        .red {
+            background:
+                linear-gradient(
+                    145deg,
+                    #ff5b50,
+                    #e43b32
+                );
+        }
+
+        .orange {
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffa128,
+                    #f27b08
+                );
+        }
+
+        .yellow {
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffc445,
+                    #f0a600
+                );
+        }
+
+
+        /* =========================
+           左侧文字
+        ========================= */
+
+        .label {
+            font-size: 17px;
+            line-height: 1.2;
+
+            font-weight: 600;
+
+            color: #384139;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           右侧值
+        ========================= */
+
+        .value {
+            justify-self: end;
+
+            text-align: right;
+
+            font-size: 18px;
+            line-height: 1.2;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        .value.orange-text {
+            color: #f07c10;
+        }
+
+        .value.red-text {
+            color: #ef443a;
+        }
+
+        .value.score {
+            color: #f07c10;
+
+            font-size: 19px;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        /* =========================
+           TOP3 多行文字
+        ========================= */
+
+        .drivers {
+            justify-self: end;
+
+            text-align: right;
+
+            color: #3c453e;
+
+            font-size: 14px;
+            line-height: 1.32;
+
+            font-weight: 600;
+
+            white-space: normal;
+        }
+
+
+        /* =========================
+           小图标字符
+        ========================= */
+
+        .shield {
+            font-size: 15px;
+        }
+
+        .search {
+            font-size: 14px;
+        }
+
+        .pin {
+            font-size: 15px;
+        }
+
+        .chart {
+            font-size: 14px;
+        }
+
+        .warning {
+            font-size: 16px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="overview-card">
+
+
+    <!-- 顶部标题 -->
+
+    <div class="header">
+
+        <div class="header-icon">
+            <span class="shield">
+                ◈
+            </span>
+        </div>
+
+        <div class="header-title">
+            风险研判总览
+        </div>
+
+    </div>
+
+
+
+    <!-- 内容 -->
+
+    <div class="rows">
+
+
+        <!-- 整体研判 -->
+
+        <div class="row">
+
+            <div class="row-icon green">
+                <span class="search">
+                    ◎
+                </span>
+            </div>
+
+            <div class="label">
+                整体研判
+            </div>
+
+            <div class="value orange-text">
+                中风险
+            </div>
+
+        </div>
+
+
+
+        <!-- 最高风险地市 -->
+
+        <div class="row">
+
+            <div class="row-icon red">
+                <span class="pin">
+                    ●
+                </span>
+            </div>
+
+            <div class="label">
+                最高风险地市
+            </div>
+
+            <div class="value red-text">
+                三门峡市
+            </div>
+
+        </div>
+
+
+
+        <!-- 综合风险分 -->
+
+        <div class="row">
+
+            <div class="row-icon orange">
+                <span class="chart">
+                    ▥
+                </span>
+            </div>
+
+            <div class="label">
+                综合风险分
+            </div>
+
+            <div class="value score">
+                6.6932
+            </div>
+
+        </div>
+
+
+
+        <!-- TOP3驱动因子 -->
+
+        <div class="row">
+
+            <div class="row-icon yellow">
+                <span class="warning">
+                    !
+                </span>
+            </div>
+
+            <div class="label">
+                TOP3驱动因子
+            </div>
+
+            <div class="drivers">
+                天气风险 /<br>
+                价格风险 /<br>
+                供给风险
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
